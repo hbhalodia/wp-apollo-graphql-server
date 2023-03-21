@@ -1,31 +1,34 @@
 const resolvers = {
 	Query: {
-		posts: async (_, { pageSize = 5 }, { dataSources } ) => {
-			return dataSources.WordPressPostAPI.getAllPosts({ pageSize: pageSize } );
+		posts: async (_, { pageSize = 5 }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllPosts({ pageSize: pageSize });
 		},
-		post: async ( _, { id }, { dataSources }) => {
+		post: async (_, { id }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getPostById({ postId: id });
 		},
-		categories: async ( _, __, { dataSources } ) => {
-			return dataSources.WordPressPostAPI.getAllCategories();
+		categories: async (_, { pageSize = 5 }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllCategories({ pageSize: pageSize });
 		},
 		category: async (_, { id }, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getCategoryById( { categoryId: id } );
+			return dataSources.WordPressPostAPI.getCategoryById({ categoryId: id });
 		},
-		tags: async (_, __, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getAllTags();
+		tags: async (_, { pageSize = 5 }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllTags({ pageSize: pageSize });
 		},
-		tag: async (_, { id }, { dataSources } ) => {
-			return dataSources.WordPressPostAPI.getTagById( { tagId: id } );
+		tag: async (_, { id }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getTagById({ tagId: id });
 		},
-		users: async (_, __, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getAllUsers();
+		users: async (_, { pageSize = 5 }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllUsers({ pageSize: pageSize });
 		},
 		user: async (_, { id }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getUserById({ userId: id });
 		},
-		attachments: async (_, __, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getAllAttachments();
+		attachments: async (_, { pageSize = 5 }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllAttachments({ pageSize: pageSize });
+		},
+		attachment: async (_, { id }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAttachmentById({ attachmentId: id });
 		},
 	},
 }

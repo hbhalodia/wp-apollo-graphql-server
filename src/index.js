@@ -21,7 +21,7 @@ const server = new ApolloServer({
 	resolvers,
 });
 
-const { url } = await startStandaloneServer( server, {
+const { url } = await startStandaloneServer(server, {
 	context: async () => {
 		return {
 			dataSources: dataSources(),
@@ -30,4 +30,4 @@ const { url } = await startStandaloneServer( server, {
 	listen: { port: port },
 });
 
-console.log( `🚀 Apollo Server running at ${url}` );
+console.log(`🚀 Apollo Server running at ${url}`);

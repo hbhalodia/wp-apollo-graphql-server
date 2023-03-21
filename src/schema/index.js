@@ -58,15 +58,16 @@ const typeDefs = `
 
 	# The Query Type.
 	type Query {
-		posts( pageSize: Int ): [Post],
-		categories: [Category],
-		tags: [Tag],
-		users: [User],
+		posts(pageSize: Int): [Post],
+		categories(pageSize: Int): [Category],
+		tags(pageSize: Int): [Tag],
+		users(pageSize: Int): [User],
+		attachments(pageSize: Int): [Media],
 		post(id: ID!): Post,
 		user(id: ID!): User,
 		category(id: ID!): Category,
 		tag(id: ID!): Tag,
-		attachments: [Media],
+		attachment(id: ID!): Media,
 	}
 `;
 

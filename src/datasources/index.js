@@ -7,7 +7,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 		this.baseURL = "http://rtcamplocal.local/wp-json/wp/v2/";
 	}
 
-	PostReducer( post ) {
+	PostReducer(post) {
 		return {
 			id: post.id,
 			title: post.title.rendered,
@@ -16,7 +16,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			slug: post.slug,
 			link: post.link,
 			categories: post.categories ? this.getCategoriesByIDs(post.categories) : [],
-			tags: post.tags ? this.getTagsByIDs( post.tags ) : [],
+			tags: post.tags ? this.getTagsByIDs(post.tags) : [],
 		}
 	}
 
@@ -27,18 +27,18 @@ export default class WordPressPostAPI extends RESTDataSource {
 				per_page: pageSize,
 			},
 			// We can add multiple params such as sorting, offset etc which is provided by rest API.
-		} );
-		return Array.isArray( res )
-			? res.map( post => this.PostReducer( post ) )
+		});
+		return Array.isArray(res)
+			? res.map(post => this.PostReducer(post))
 			: [];
 	}
 
-	async getPostById( { postId } ) {
-		const res = await this.get( 'posts/' + postId );
-		return this.PostReducer( res );
+	async getPostById({ postId }) {
+		const res = await this.get('posts/' + postId);
+		return this.PostReducer(res);
 	}
 
-	CategoryReducer( category ) {
+	CategoryReducer(category) {
 		return {
 			id: category.id,
 			count: category.count,
@@ -50,30 +50,35 @@ export default class WordPressPostAPI extends RESTDataSource {
 		}
 	}
 
-	async getAllCategories() {
-		const res = await this.get( 'categories' );
-		return Array.isArray( res )
-			? res.map( category => this.CategoryReducer( category ) )
+	async getAllCategories({ pageSize }) {
+		const res = await this.get('categories', {
+			params: {
+				per_page: pageSize,
+			},
+			// We can add multiple params such as sorting, offset etc which is provided by rest API.
+		});
+		return Array.isArray(res)
+			? res.map(category => this.CategoryReducer(category))
 			: [];
 	}
 
-	async getCategoryById( { categoryId } ) {
-		const res = await this.get( 'categories/' + categoryId );
-		return this.CategoryReducer( res );
+	async getCategoryById({ categoryId }) {
+		const res = await this.get('categories/' + categoryId);
+		return this.CategoryReducer(res);
 	}
 
-	async getCategoriesByIDs( categoryIds ) {
-		const res = await this.get( 'categories', {
+	async getCategoriesByIDs(categoryIds) {
+		const res = await this.get('categories', {
 			params: {
 				include: categoryIds,
 			},
-		} );
-		return Array.isArray( res )
-			? res.map( category => this.CategoryReducer( category ) )
+		});
+		return Array.isArray(res)
+			? res.map(category => this.CategoryReducer(category))
 			: [];
 	}
 
-	TagReducer( tag ) {
+	TagReducer(tag) {
 		return {
 			id: tag.id,
 			count: tag.count,
@@ -85,30 +90,35 @@ export default class WordPressPostAPI extends RESTDataSource {
 		}
 	}
 
-	async getAllTags() {
-		const res = await this.get( 'tags' );
-		return Array.isArray( res )
-			? res.map( tag => this.TagReducer( tag ) )
+	async getAllTags({ pageSize }) {
+		const res = await this.get('tags', {
+			params: {
+				per_page: pageSize,
+			},
+			// We can add multiple params such as sorting, offset etc which is provided by rest API.
+		});
+		return Array.isArray(res)
+			? res.map(tag => this.TagReducer(tag))
 			: [];
 	}
 
-	async getTagById( { tagId } ) {
-		const res = await this.get( 'tags/' + tagId );
-		return this.TagReducer( res );
+	async getTagById({ tagId }) {
+		const res = await this.get('tags/' + tagId);
+		return this.TagReducer(res);
 	}
 
-	async getTagsByIDs( tagIds ) {
-		const res = await this.get( 'tags', {
+	async getTagsByIDs(tagIds) {
+		const res = await this.get('tags', {
 			params: {
 				include: tagIds,
 			},
-		} );
-		return Array.isArray( res )
-			? res.map( tag => this.TagReducer( tag ) )
+		});
+		return Array.isArray(res)
+			? res.map(tag => this.TagReducer(tag))
 			: [];
 	}
 
-	UserReducer( user ) {
+	UserReducer(user) {
 		return {
 			id: user.id,
 			name: user.name,
@@ -118,16 +128,21 @@ export default class WordPressPostAPI extends RESTDataSource {
 		}
 	}
 
-	async getAllUsers() {
-		const res = await this.get( 'users' );
-		return Array.isArray( res )
-			? res.map( user => this.UserReducer( user ) )
+	async getAllUsers({ pageSize }) {
+		const res = await this.get('users', {
+			params: {
+				per_page: pageSize,
+			},
+			// We can add multiple params such as sorting, offset etc which is provided by rest API.
+		});
+		return Array.isArray(res)
+			? res.map(user => this.UserReducer(user))
 			: [];
 	}
 
-	async getUserById({ userId } ) {
-		const res = await this.get('users/' + userId );
-		return this.UserReducer( res );
+	async getUserById({ userId }) {
+		const res = await this.get('users/' + userId);
+		return this.UserReducer(res);
 	}
 
 	AttachmentReducer(attachment) {
@@ -145,10 +160,20 @@ export default class WordPressPostAPI extends RESTDataSource {
 		}
 	}
 
-	async getAllAttachments() {
-		const res = await this.get( 'media' );
-		return Array.isArray( res )
-			? res.map( attachment => this.AttachmentReducer( attachment ) )
+	async getAllAttachments({ pageSize }) {
+		const res = await this.get('media', {
+			params: {
+				per_page: pageSize,
+			},
+			// We can add multiple params such as sorting, offset etc which is provided by rest API.
+		});
+		return Array.isArray(res)
+			? res.map(attachment => this.AttachmentReducer(attachment))
 			: [];
+	}
+
+	async getAttachmentById({ attachmentId }) {
+		const res = await this.get('media/' + attachmentId);
+		return this.AttachmentReducer(res);
 	}
 }
