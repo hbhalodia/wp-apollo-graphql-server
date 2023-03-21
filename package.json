@@ -1,0 +1,19 @@
+{
+	"name": "wp-apollo-graphql-connection",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.js",
+	"type": "module",
+	"scripts": {
+		"start": "nodemon src/index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@apollo/datasource-rest": "^5.0.2",
+		"@apollo/server": "^4.5.0",
+		"graphql": "^16.6.0",
+		"nodemon": "^2.0.21"
+	}
+}
