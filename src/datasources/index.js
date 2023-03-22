@@ -20,6 +20,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			excerpt: article.excerpt.rendered,
 			slug: article.slug,
 			link: article.link,
+			postType: article.type,
 			author: article.author ? this.getUserById({ userId: article.author }) : [],
 			categories: article.categories ? this.getCategoriesByIDs({ categoryIds: article.categories }) : [],
 			tags: article.tags ? this.getTagsByIDs({ tagIds: article.tags }) : [],
@@ -48,8 +49,8 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return this.ArticleReducer(res);
 	}
 
-	async addPostArticle({ title, content, author, excerpt, slug, status, type }) {
-		const res = await this.post(`posts`, {
+	async addArticle({ title, content, author, excerpt, slug, status, postType }) {
+		const res = await this.post( postType, {
 			body: {
 				title,
 				content,
@@ -57,7 +58,6 @@ export default class WordPressPostAPI extends RESTDataSource {
 				slug,
 				author,
 				status,
-				type,
 			}
 		});
 		return this.ArticleReducer(res);

@@ -10,7 +10,7 @@ const typeDefs = `
 		slug: String!,
 		link: String!,
 		status: String,
-		type: String,
+		postType: String,
 		author: User,
 		categories: [Taxonomy],
 		tags: [Taxonomy],
@@ -64,7 +64,7 @@ const typeDefs = `
 	}
 
 	type Mutation {
-		addArticle( title: String, slug: String, author: Int, content: String, excerpt: String, status: String, type: String ): Article,
+		addArticle( title: String, slug: String, author: Int, content: String, excerpt: String, status: String, postType: String ): Article,
 	}
 `;
 
