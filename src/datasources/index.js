@@ -1,10 +1,12 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
+import pkg from 'lodash';
+const { isEmpty } = pkg;
 
 export default class WordPressPostAPI extends RESTDataSource {
 
 	constructor(options) {
 		super();
-		this.baseURL = "https://rtcamp.com/wp-json/wp/v2/";
+		this.baseURL = "http://rtcamplocal.local/wp-json/wp/v2/";
 		this.token = options.token;
 	}
 
@@ -21,14 +23,14 @@ export default class WordPressPostAPI extends RESTDataSource {
 			slug: article.slug,
 			link: article.link,
 			postType: article.type,
-			attachment: article.featured_media ? this.getAttachmentById({ attachmentId: article.featured_media }) : [],
-			author: article.author ? this.getUserById({ userId: article.author }) : [],
-			categories: article.categories ? this.getCategoriesByIDs({ categoryIds: article.categories }) : [],
-			tags: article.tags ? this.getTagsByIDs({ tagIds: article.tags }) : [],
-			solutions: article.solution ? this.getSolutionsByIDs({ solutionIds: article.solution }) : [],
-			services: article.service ? this.getServicesByIDs({ serviceIds: article.service }) : [],
-			industries: article.industry ? this.getIndustriesByIDs({ industryIds: article.industry }) : [],
-			jobTypes: article.job_type ? this.getJobTypesByIDs({ jobTypeIds: article.job_type }) : [],
+			attachment: isEmpty(article.featured_media) ? [] : this.getAttachmentById({ attachmentId: article.featured_media }),
+			author: isEmpty(article.author) ? []: this.getUserById({ userId: article.author }),
+			categories: isEmpty(article.categories) ? [] : this.getCategoriesByIDs({ categoryIds: article.categories }),
+			tags: isEmpty(article.tags) ? [] : this.getTagsByIDs({ tagIds: article.tags }),
+			solutions: isEmpty(article.solution) ? [] : this.getSolutionsByIDs({ solutionIds: article.solution }),
+			services: isEmpty(article.service) ? [] : this.getServicesByIDs({ serviceIds: article.service }),
+			industries: isEmpty(article.industry) ? [] : this.getIndustriesByIDs({ industryIds: article.industry }),
+			jobTypes: isEmpty(article.job_type) ? [] : this.getJobTypesByIDs({ jobTypeIds: article.job_type }),
 		}
 	}
 
@@ -51,7 +53,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async addArticle({ title, content, author, excerpt, slug, status, postType }) {
-		const res = await this.post( postType, {
+		const res = await this.post(postType, {
 			body: {
 				title,
 				content,
