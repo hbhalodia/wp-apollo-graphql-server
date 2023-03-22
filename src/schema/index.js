@@ -12,6 +12,7 @@ const typeDefs = `
 		status: String,
 		postType: String,
 		author: User,
+		attachment: Media,
 		categories: [Taxonomy],
 		tags: [Taxonomy],
 		solutions: [Taxonomy],

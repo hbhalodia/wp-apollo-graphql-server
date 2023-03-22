@@ -4,7 +4,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 
 	constructor(options) {
 		super();
-		this.baseURL = "http://rtcamplocal.local/wp-json/wp/v2/";
+		this.baseURL = "https://rtcamp.com/wp-json/wp/v2/";
 		this.token = options.token;
 	}
 
@@ -21,6 +21,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			slug: article.slug,
 			link: article.link,
 			postType: article.type,
+			attachment: article.featured_media ? this.getAttachmentById({ attachmentId: article.featured_media }) : [],
 			author: article.author ? this.getUserById({ userId: article.author }) : [],
 			categories: article.categories ? this.getCategoriesByIDs({ categoryIds: article.categories }) : [],
 			tags: article.tags ? this.getTagsByIDs({ tagIds: article.tags }) : [],
