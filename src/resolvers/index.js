@@ -28,6 +28,9 @@ const resolvers = {
 	Mutation: {
 		addArticle: async (_, { title, author, content, excerpt, slug, status, postType }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.addArticle({ title, author, content, excerpt, slug, status, postType });
+		},
+		addTaxonomy: async (_, { description, name, slug, taxonomy, parent }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.addTaxonomy({ description, name, slug, taxonomy, parent });
 		}
 	}
 }

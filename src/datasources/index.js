@@ -106,6 +106,18 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return this.TaxonomyReducer(res);
 	}
 
+	async addTaxonomy({ name, description, taxonomy, parent, slug }) {
+		const res = await this.post(taxonomy, {
+			body: {
+				name,
+				description,
+				slug,
+				parent
+			}
+		});
+		return this.TaxonomyReducer(res);
+	}
+
 	async getCategoriesByIDs({ categoryIds }) {
 		const res = await this.get('categories', {
 			params: {
