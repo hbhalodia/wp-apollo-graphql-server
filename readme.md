@@ -5,4 +5,4 @@
 - You can see `src/schema/index.js` for `Schema` being created for graphql that we can fire a graphql query so we get result what we needed.
 - You can see `src/datasources/index.js` for `Rest API` connection with Apollo server. This repository used `RESTDataSource` package to use `REST API` seamlessly without writing any extra code to fetch data such as `axios` for `fetch` functions.
 - You can see `src/resolvers/index.js` for all the resolvers used to resolve schema and return the final result.
-- You can start with main `index.js` file which created the server connection and pass `schema` and `resolvers` with our `dataSource` that is rest API endpoint.
+- You can start with main `src/index.js` file which created the server connection and pass `schema` and `resolvers` with our `dataSource` that is rest API endpoint.
