@@ -4,7 +4,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 
 	constructor() {
 		super();
-		this.baseURL = "http://rtcamplocal.local/wp-json/wp/v2/";
+		this.baseURL = "https://rtcamp.com/wp-json/wp/v2/posts";
 	}
 
 	PostReducer(post) {
