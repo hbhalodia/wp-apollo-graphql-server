@@ -11,28 +11,22 @@ const typeDefs = `
 		link: String!,
 		status: String,
 		type: String,
-		categories: [Category],
-		tags: [Tag],
+		categories: [Taxonomy],
+		tags: [Taxonomy],
+		solutions: [Taxonomy],
+		services: [Taxonomy],
+		industries: [Taxonomy],
+		jobTypes: [Taxonomy],
 	}
 
-	type Category {
+	type Taxonomy {
 		id: ID!,
 		count: Int,
 		description: String,
 		name: String,
 		taxonomy: String!,
-		parent: Int,
+		parent: Taxonomy,
 		slug: String!,
-	}
-
-	type Tag {
-		id: ID!,
-		count: Int,
-		link: String,
-		description: String,
-		name: String,
-		slug: String!,
-		taxonomy: String!,
 	}
 
 	type User {
@@ -59,14 +53,12 @@ const typeDefs = `
 	# The Query Type.
 	type Query {
 		articles(pageSize: Int, postType: String): [Article],
-		categories(pageSize: Int): [Category],
-		tags(pageSize: Int): [Tag],
+		taxonomies(pageSize: Int, taxonomy: String): [Taxonomy],
 		users(pageSize: Int): [User],
 		attachments(pageSize: Int): [Media],
 		article(id: ID!, postType: String): Article,
+		taxonomy(id: ID!, taxonomy: String): Taxonomy,
 		user(id: ID!): User,
-		category(id: ID!): Category,
-		tag(id: ID!): Tag,
 		attachment(id: ID!): Media,
 	}
 `;

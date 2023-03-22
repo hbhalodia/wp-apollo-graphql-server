@@ -17,12 +17,16 @@ export default class WordPressPostAPI extends RESTDataSource {
 			link: article.link,
 			categories: article.categories ? this.getCategoriesByIDs(article.categories) : [],
 			tags: article.tags ? this.getTagsByIDs(article.tags) : [],
+			solutions: article.solution ? this.getSolutionsByIDs(article.solution) : [],
+			services: article.service ? this.getServicesByIDs(article.service) : [],
+			industries: article.industry ? this.getIndustriesByIDs(article.industry) : [],
+			jobTypes: article.job_type ? this.getJobTypesByIDs(article.job_type) : [],
 		}
 	}
 
 	async getAllArticles({ pageSize, postType }) {
 
-		const res = await this.get( postType, {
+		const res = await this.get(postType, {
 			params: {
 				per_page: pageSize,
 			},
@@ -38,33 +42,47 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return this.ArticleReducer(res);
 	}
 
-	CategoryReducer(category) {
+	TaxonomyReducer(taxonomy) {
 		return {
-			id: category.id,
-			count: category.count,
-			description: category.description,
-			name: category.name,
-			taxonomy: category.taxonomy,
-			parent: category.parent,
-			slug: category.slug,
+			id: taxonomy.id,
+			count: taxonomy.count,
+			description: taxonomy.description,
+			name: taxonomy.name,
+			taxonomy: taxonomy.taxonomy,
+			parent: taxonomy.parent ? this.getParentTaxonomy({ id: taxonomy.parent, taxonomy: taxonomy.taxonomy }) : null,
+			slug: taxonomy.slug,
 		}
 	}
 
-	async getAllCategories({ pageSize }) {
-		const res = await this.get('categories', {
+	async getAllTaxonomies({ pageSize, taxonomy }) {
+		const res = await this.get(taxonomy, {
 			params: {
 				per_page: pageSize,
 			},
 			// We can add multiple params such as sorting, offset etc which is provided by rest API.
 		});
 		return Array.isArray(res)
-			? res.map(category => this.CategoryReducer(category))
+			? res.map(taxonomy => this.TaxonomyReducer(taxonomy))
 			: [];
 	}
 
-	async getCategoryById({ categoryId }) {
-		const res = await this.get('categories/' + categoryId);
-		return this.CategoryReducer(res);
+	async getTaxonomyById({ taxonomyId, taxonomy }) {
+		const res = await this.get(`${taxonomy}/${taxonomyId}`);
+		return this.TaxonomyReducer(res);
+	}
+
+	async getParentTaxonomy({ id, taxonomy }) {
+
+		if ('category' === taxonomy) {
+			taxonomy = 'categories';
+		}
+
+		if ('post_tag' === taxonomy) {
+			taxonomy = 'tags';
+		}
+
+		const res = await this.get(`${taxonomy}/${id}`);
+		return this.TaxonomyReducer(res);
 	}
 
 	async getCategoriesByIDs(categoryIds) {
@@ -74,37 +92,8 @@ export default class WordPressPostAPI extends RESTDataSource {
 			},
 		});
 		return Array.isArray(res)
-			? res.map(category => this.CategoryReducer(category))
+			? res.map(category => this.TaxonomyReducer(category))
 			: [];
-	}
-
-	TagReducer(tag) {
-		return {
-			id: tag.id,
-			count: tag.count,
-			link: tag.link,
-			description: tag.description,
-			name: tag.name,
-			slug: tag.slug,
-			taxonomy: tag.taxonomy,
-		}
-	}
-
-	async getAllTags({ pageSize }) {
-		const res = await this.get('tags', {
-			params: {
-				per_page: pageSize,
-			},
-			// We can add multiple params such as sorting, offset etc which is provided by rest API.
-		});
-		return Array.isArray(res)
-			? res.map(tag => this.TagReducer(tag))
-			: [];
-	}
-
-	async getTagById({ tagId }) {
-		const res = await this.get('tags/' + tagId);
-		return this.TagReducer(res);
 	}
 
 	async getTagsByIDs(tagIds) {
@@ -114,7 +103,51 @@ export default class WordPressPostAPI extends RESTDataSource {
 			},
 		});
 		return Array.isArray(res)
-			? res.map(tag => this.TagReducer(tag))
+			? res.map(tag => this.TaxonomyReducer(tag))
+			: [];
+	}
+
+	async getSolutionsByIDs(solutionIds) {
+		const res = await this.get('solution', {
+			params: {
+				include: solutionIds,
+			},
+		});
+		return Array.isArray(res)
+			? res.map(solution => this.TaxonomyReducer(solution))
+			: [];
+	}
+
+	async getServicesByIDs(serviceIds) {
+		const res = await this.get('service', {
+			params: {
+				include: serviceIds,
+			},
+		});
+		return Array.isArray(res)
+			? res.map(service => this.TaxonomyReducer(service))
+			: [];
+	}
+
+	async getIndustriesByIDs(industryIds) {
+		const res = await this.get('industry', {
+			params: {
+				include: industryIds,
+			},
+		});
+		return Array.isArray(res)
+			? res.map(industry => this.TaxonomyReducer(industry))
+			: [];
+	}
+
+	async getJobTypesByIDs(jobTypeIds) {
+		const res = await this.get('job_type', {
+			params: {
+				include: jobTypeIds,
+			},
+		});
+		return Array.isArray(res)
+			? res.map(jobType => this.TaxonomyReducer(jobType))
 			: [];
 	}
 
