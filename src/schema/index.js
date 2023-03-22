@@ -11,6 +11,7 @@ const typeDefs = `
 		link: String!,
 		status: String,
 		type: String,
+		author: User,
 		categories: [Taxonomy],
 		tags: [Taxonomy],
 		solutions: [Taxonomy],

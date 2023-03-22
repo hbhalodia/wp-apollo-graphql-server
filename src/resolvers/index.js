@@ -26,8 +26,8 @@ const resolvers = {
 		},
 	},
 	Mutation: {
-		addArticle: async (_, { title, content, excerpt, slug, status, type }, { dataSources }) => {
-			return dataSources.WordPressPostAPI.addPostArticle({ title, content, excerpt, slug, status, type });
+		addArticle: async (_, { title, author, content, excerpt, slug, status, type }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.addPostArticle({ title, author, content, excerpt, slug, status, type });
 		}
 	}
 }

@@ -20,12 +20,13 @@ export default class WordPressPostAPI extends RESTDataSource {
 			excerpt: article.excerpt.rendered,
 			slug: article.slug,
 			link: article.link,
-			categories: article.categories ? this.getCategoriesByIDs(article.categories) : [],
-			tags: article.tags ? this.getTagsByIDs(article.tags) : [],
-			solutions: article.solution ? this.getSolutionsByIDs(article.solution) : [],
-			services: article.service ? this.getServicesByIDs(article.service) : [],
-			industries: article.industry ? this.getIndustriesByIDs(article.industry) : [],
-			jobTypes: article.job_type ? this.getJobTypesByIDs(article.job_type) : [],
+			author: article.author ? this.getUserById({ userId: article.author }) : [],
+			categories: article.categories ? this.getCategoriesByIDs({ categoryIds: article.categories }) : [],
+			tags: article.tags ? this.getTagsByIDs({ tagIds: article.tags }) : [],
+			solutions: article.solution ? this.getSolutionsByIDs({ solutionIds: article.solution }) : [],
+			services: article.service ? this.getServicesByIDs({ serviceIds: article.service }) : [],
+			industries: article.industry ? this.getIndustriesByIDs({ industryIds: article.industry }) : [],
+			jobTypes: article.job_type ? this.getJobTypesByIDs({ jobTypeIds: article.job_type }) : [],
 		}
 	}
 
@@ -47,13 +48,14 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return this.ArticleReducer(res);
 	}
 
-	async addPostArticle({ title, content, excerpt, slug, status, type }) {
+	async addPostArticle({ title, content, author, excerpt, slug, status, type }) {
 		const res = await this.post(`posts`, {
 			body: {
 				title,
 				content,
 				excerpt,
 				slug,
+				author,
 				status,
 				type,
 			}
@@ -104,7 +106,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return this.TaxonomyReducer(res);
 	}
 
-	async getCategoriesByIDs(categoryIds) {
+	async getCategoriesByIDs({ categoryIds }) {
 		const res = await this.get('categories', {
 			params: {
 				include: categoryIds,
@@ -115,7 +117,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			: [];
 	}
 
-	async getTagsByIDs(tagIds) {
+	async getTagsByIDs({ tagIds }) {
 		const res = await this.get('tags', {
 			params: {
 				include: tagIds,
@@ -126,7 +128,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			: [];
 	}
 
-	async getSolutionsByIDs(solutionIds) {
+	async getSolutionsByIDs({ solutionIds }) {
 		const res = await this.get('solution', {
 			params: {
 				include: solutionIds,
@@ -137,7 +139,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			: [];
 	}
 
-	async getServicesByIDs(serviceIds) {
+	async getServicesByIDs({ serviceIds }) {
 		const res = await this.get('service', {
 			params: {
 				include: serviceIds,
@@ -148,7 +150,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			: [];
 	}
 
-	async getIndustriesByIDs(industryIds) {
+	async getIndustriesByIDs({ industryIds }) {
 		const res = await this.get('industry', {
 			params: {
 				include: industryIds,
@@ -159,7 +161,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			: [];
 	}
 
-	async getJobTypesByIDs(jobTypeIds) {
+	async getJobTypesByIDs({ jobTypeIds }) {
 		const res = await this.get('job_type', {
 			params: {
 				include: jobTypeIds,
