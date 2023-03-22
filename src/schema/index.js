@@ -61,6 +61,10 @@ const typeDefs = `
 		user(id: ID!): User,
 		attachment(id: ID!): Media,
 	}
+
+	type Mutation {
+		addArticle( title: String, slug: String, author: Int, content: String, excerpt: String, status: String, type: String ): Article,
+	}
 `;
 
 export default typeDefs;

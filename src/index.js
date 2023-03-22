@@ -11,9 +11,16 @@ import WordPressPostAPI from './datasources/index.js';
 import resolvers from './resolvers/index.js';
 
 const port = Number.parseInt(process.env.PORT) || 4002;
+const login = 'hitbhalodia2';
+const password = 'CgCH fhlC La7R HdTP n1AI NGSr';
+
+const buff = new Buffer(`${login}:${password}`);
+const options = {
+	token: 'Basic ' + buff.toString('base64'),
+}
 
 const dataSources = () => ({
-	WordPressPostAPI: new WordPressPostAPI(),
+	WordPressPostAPI: new WordPressPostAPI(options),
 });
 
 const server = new ApolloServer({

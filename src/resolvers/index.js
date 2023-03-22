@@ -25,6 +25,11 @@ const resolvers = {
 			return dataSources.WordPressPostAPI.getAttachmentById({ attachmentId: id });
 		},
 	},
+	Mutation: {
+		addArticle: async (_, { title, content, excerpt, slug, status, type }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.addPostArticle({ title, content, excerpt, slug, status, type });
+		}
+	}
 }
 
 export default resolvers;

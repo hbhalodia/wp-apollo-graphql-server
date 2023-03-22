@@ -2,9 +2,14 @@ import { RESTDataSource } from '@apollo/datasource-rest';
 
 export default class WordPressPostAPI extends RESTDataSource {
 
-	constructor() {
+	constructor(options) {
 		super();
-		this.baseURL = "https://rtcamp.com/wp-json/wp/v2/";
+		this.baseURL = "http://rtcamplocal.local/wp-json/wp/v2/";
+		this.token = options.token;
+	}
+
+	willSendRequest(_path, request) {
+		request.headers['Authorization'] = this.token;
 	}
 
 	ArticleReducer(article) {
@@ -39,6 +44,20 @@ export default class WordPressPostAPI extends RESTDataSource {
 
 	async getArticleById({ postId, postType }) {
 		const res = await this.get(`${postType}/${postId}`);
+		return this.ArticleReducer(res);
+	}
+
+	async addPostArticle({ title, content, excerpt, slug, status, type }) {
+		const res = await this.post(`posts`, {
+			body: {
+				title,
+				content,
+				excerpt,
+				slug,
+				status,
+				type,
+			}
+		});
 		return this.ArticleReducer(res);
 	}
 
