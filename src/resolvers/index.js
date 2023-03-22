@@ -1,10 +1,10 @@
 const resolvers = {
 	Query: {
-		posts: async (_, { pageSize = 5 }, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getAllPosts({ pageSize: pageSize });
+		articles: async (_, { pageSize = 5, postType = 'posts' }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType });
 		},
-		post: async (_, { id }, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getPostById({ postId: id });
+		article: async (_, { id, postType = 'posts' }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getArticleById({ postId: id, postType: postType });
 		},
 		categories: async (_, { pageSize = 5 }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getAllCategories({ pageSize: pageSize });

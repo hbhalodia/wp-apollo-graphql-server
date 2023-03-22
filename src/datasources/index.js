@@ -7,35 +7,35 @@ export default class WordPressPostAPI extends RESTDataSource {
 		this.baseURL = "https://rtcamp.com/wp-json/wp/v2/";
 	}
 
-	PostReducer(post) {
+	ArticleReducer(article) {
 		return {
-			id: post.id,
-			title: post.title.rendered,
-			content: post.content.rendered,
-			excerpt: post.excerpt.rendered,
-			slug: post.slug,
-			link: post.link,
-			categories: post.categories ? this.getCategoriesByIDs(post.categories) : [],
-			tags: post.tags ? this.getTagsByIDs(post.tags) : [],
+			id: article.id,
+			title: article.title.rendered,
+			content: article.content.rendered,
+			excerpt: article.excerpt.rendered,
+			slug: article.slug,
+			link: article.link,
+			categories: article.categories ? this.getCategoriesByIDs(article.categories) : [],
+			tags: article.tags ? this.getTagsByIDs(article.tags) : [],
 		}
 	}
 
-	async getAllPosts({ pageSize }) {
+	async getAllArticles({ pageSize, postType }) {
 
-		const res = await this.get('posts', {
+		const res = await this.get( postType, {
 			params: {
 				per_page: pageSize,
 			},
 			// We can add multiple params such as sorting, offset etc which is provided by rest API.
 		});
 		return Array.isArray(res)
-			? res.map(post => this.PostReducer(post))
+			? res.map(article => this.ArticleReducer(article))
 			: [];
 	}
 
-	async getPostById({ postId }) {
-		const res = await this.get('posts/' + postId);
-		return this.PostReducer(res);
+	async getArticleById({ postId, postType }) {
+		const res = await this.get(`${postType}/${postId}`);
+		return this.ArticleReducer(res);
 	}
 
 	CategoryReducer(category) {

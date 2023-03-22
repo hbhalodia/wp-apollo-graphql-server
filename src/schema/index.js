@@ -2,7 +2,7 @@ const typeDefs = `
 	#graphql
 
 	# The posts type.
-	type Post {
+	type Article {
 		id: ID!,
 		title: String,
 		content: String,
@@ -58,12 +58,12 @@ const typeDefs = `
 
 	# The Query Type.
 	type Query {
-		posts(pageSize: Int): [Post],
+		articles(pageSize: Int, postType: String): [Article],
 		categories(pageSize: Int): [Category],
 		tags(pageSize: Int): [Tag],
 		users(pageSize: Int): [User],
 		attachments(pageSize: Int): [Media],
-		post(id: ID!): Post,
+		article(id: ID!, postType: String): Article,
 		user(id: ID!): User,
 		category(id: ID!): Category,
 		tag(id: ID!): Tag,
