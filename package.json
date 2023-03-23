@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@apollo/datasource-rest": "^5.0.2",
 		"@apollo/server": "^4.5.0",
+		"@as-integrations/aws-lambda": "^2.0.1",
 		"graphql": "^16.6.0",
 		"lodash": "^4.17.21",
 		"nodemon": "^2.0.21"

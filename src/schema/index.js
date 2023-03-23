@@ -78,6 +78,7 @@ const typeDefs = `
 		user(id: ID!): User,
 		attachment(id: ID!): Media,
 		settings: Setting,
+		hello: String,
 	}
 
 	type Mutation {

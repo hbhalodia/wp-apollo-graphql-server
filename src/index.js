@@ -1,5 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { startServerAndCreateLambdaHandler, handlers } from '@as-integrations/aws-lambda';
 
 // Import schema.
 import typeDefs from './schema/index.js';
@@ -27,6 +28,18 @@ const server = new ApolloServer({
 	typeDefs,
 	resolvers,
 });
+
+// export const graphqlHandler = startServerAndCreateLambdaHandler(
+// 	server,
+// 	handlers.createAPIGatewayProxyEventV2RequestHandler(),
+// 	{
+// 		context: async () => {
+// 			return {
+// 				dataSources: dataSources(),
+// 			};
+// 		},
+// 	},
+// );
 
 const { url } = await startStandaloneServer(server, {
 	context: async () => {

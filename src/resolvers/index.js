@@ -27,6 +27,7 @@ const resolvers = {
 		settings: async( _, __, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getSettings();
 		},
+		hello: () => 'Hello world!',
 	},
 	Mutation: {
 		addArticle: async (_, { title, author, content, excerpt, slug, status, postType }, { dataSources }) => {
