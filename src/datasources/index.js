@@ -245,4 +245,27 @@ export default class WordPressPostAPI extends RESTDataSource {
 		const res = await this.get('media/' + attachmentId);
 		return this.AttachmentReducer(res);
 	}
+
+	SettingsReducer(settings) {
+		return {
+			title: settings.title,
+			description: settings.description,
+			url: settings.url,
+			email: settings.email,
+			timezone: settings.timezone,
+			dateFormat: settings.date_format,
+			timeFormat: settings.time_format,
+			startOfWeek: settings.start_of_week,
+			language: settings.language,
+			defaultCategory: settings.default_category,
+			defaultPostFormat: settings.default_post_format,
+			postsPerPage: settings.posts_per_page,
+
+		}
+	}
+
+	async getSettings() {
+		const res = await this.get('settings');
+		return this.SettingsReducer(res);
+	}
 }

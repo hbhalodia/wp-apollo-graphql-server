@@ -24,6 +24,9 @@ const resolvers = {
 		attachment: async (_, { id }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getAttachmentById({ attachmentId: id });
 		},
+		settings: async( _, __, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getSettings();
+		},
 	},
 	Mutation: {
 		addArticle: async (_, { title, author, content, excerpt, slug, status, postType }, { dataSources }) => {

@@ -52,6 +52,21 @@ const typeDefs = `
 		source_url: String,
 	}
 
+	type Setting {
+		title: String,
+		description: String,
+		url: String,
+		email: String,
+		timezone: String,
+		dateFormat: String,
+		timeFormat: String,
+		startOfWeek: Int,
+		language: String,
+		defaultCategory: Int,
+		defaultPostFormat: String,
+		postsPerPage: Int,
+	}
+
 	# The Query Type.
 	type Query {
 		articles(pageSize: Int, postType: String): [Article],
@@ -62,6 +77,7 @@ const typeDefs = `
 		taxonomy(id: ID!, taxonomy: String): Taxonomy,
 		user(id: ID!): User,
 		attachment(id: ID!): Media,
+		settings: Setting,
 	}
 
 	type Mutation {
