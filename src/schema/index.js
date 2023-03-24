@@ -41,7 +41,7 @@ const typeDefs = `
 
 	type Media {
 		id: ID!,
-		slug: String!,
+		slug: String,
 		type: String,
 		link: String,
 		title: String,
