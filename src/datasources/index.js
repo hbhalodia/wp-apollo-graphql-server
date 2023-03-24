@@ -23,7 +23,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			slug: article.slug,
 			link: article.link,
 			postType: article.type,
-			attachment: isEmpty(article.featured_media) ? null : this.getAttachmentById({ attachmentId: article.featured_media }),
+			attachment: this.getAttachmentById({ attachmentId: article.featured_media }),
 			author: isEmpty(String(article.author)) ? []: this.getUserById({ userId: article.author }),
 			categories: isEmpty(article.categories) ? [] : this.getCategoriesByIDs({ categoryIds: article.categories }),
 			tags: isEmpty(article.tags) ? [] : this.getTagsByIDs({ tagIds: article.tags }),
@@ -242,6 +242,11 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getAttachmentById({ attachmentId }) {
+
+		if (0 == attachmentId) {
+			return null;
+		}
+
 		const res = await this.get('media/' + attachmentId);
 		return this.AttachmentReducer(res);
 	}
