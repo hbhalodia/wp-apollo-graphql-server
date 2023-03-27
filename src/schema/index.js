@@ -90,7 +90,7 @@ const typeDefs = `
 
 	# The Query Type.
 	type Query {
-		articles(pageSize: Int, postType: String, category: Int): [Article],
+		articles(pageSize: Int, postType: String, category: Int, page: Int): [Article],
 		taxonomies(pageSize: Int, taxonomy: String, slug: String): [Taxonomy],
 		users(pageSize: Int): [User],
 		attachments(pageSize: Int): [Media],

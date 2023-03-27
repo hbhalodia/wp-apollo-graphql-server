@@ -1,7 +1,7 @@
 const resolvers = {
 	Query: {
-		articles: async (_, { pageSize = 5, postType = 'posts', category = 1 }, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType, category: category });
+		articles: async (_, { pageSize = 5, postType = 'posts', category = '', page = 1 }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType, category: category, page: page });
 		},
 		article: async (_, { id, postType = 'posts' }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getArticleById({ postId: id, postType: postType });

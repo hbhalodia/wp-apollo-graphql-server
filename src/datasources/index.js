@@ -34,13 +34,19 @@ export default class WordPressPostAPI extends RESTDataSource {
 		}
 	}
 
-	async getAllArticles({ pageSize, postType, category }) {
+	async getAllArticles({ pageSize, postType, category, page }) {
+
+		const params = {
+			page: page,
+			per_page: pageSize
+		}
+
+		if ('' !== category) {
+			params['categories'] = category;
+		}
 
 		const res = await this.get( 'wp/v2/' + postType, {
-			params: {
-				per_page: pageSize,
-				categories: category
-			},
+			params
 			// We can add multiple params such as sorting, offset etc which is provided by rest API.
 		});
 		return Array.isArray(res)
