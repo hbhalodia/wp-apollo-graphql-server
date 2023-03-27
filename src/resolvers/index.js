@@ -1,13 +1,13 @@
 const resolvers = {
 	Query: {
-		articles: async (_, { pageSize = 5, postType = 'posts' }, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType });
+		articles: async (_, { pageSize = 5, postType = 'posts', category = 1 }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType, category: category });
 		},
 		article: async (_, { id, postType = 'posts' }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getArticleById({ postId: id, postType: postType });
 		},
-		taxonomies: async (_, { pageSize = 5, taxonomy = 'categories' }, { dataSources }) => {
-			return dataSources.WordPressPostAPI.getAllTaxonomies({ pageSize: pageSize, taxonomy: taxonomy });
+		taxonomies: async (_, { pageSize = 5, taxonomy = 'categories', slug = '' }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getAllTaxonomies({ pageSize: pageSize, taxonomy: taxonomy, slug: slug });
 		},
 		taxonomy: async (_, { id, taxonomy = 'categories' }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getTaxonomyById({ taxonomyId: id, taxonomy: taxonomy });

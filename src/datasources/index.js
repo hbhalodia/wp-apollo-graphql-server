@@ -34,11 +34,12 @@ export default class WordPressPostAPI extends RESTDataSource {
 		}
 	}
 
-	async getAllArticles({ pageSize, postType }) {
+	async getAllArticles({ pageSize, postType, category }) {
 
 		const res = await this.get( 'wp/v2/' + postType, {
 			params: {
 				per_page: pageSize,
+				categories: category
 			},
 			// We can add multiple params such as sorting, offset etc which is provided by rest API.
 		});
@@ -78,10 +79,11 @@ export default class WordPressPostAPI extends RESTDataSource {
 		}
 	}
 
-	async getAllTaxonomies({ pageSize, taxonomy }) {
+	async getAllTaxonomies({ pageSize, taxonomy, slug }) {
 		const res = await this.get('wp/v2/' + taxonomy, {
 			params: {
 				per_page: pageSize,
+				slug: slug,
 			},
 			// We can add multiple params such as sorting, offset etc which is provided by rest API.
 		});
