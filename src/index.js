@@ -12,8 +12,8 @@ import WordPressPostAPI from './datasources/index.js';
 import resolvers from './resolvers/index.js';
 
 const port = Number.parseInt(process.env.PORT) || 4002;
-const login = 'hitbhalodia2';
-const password = 'CgCH fhlC La7R HdTP n1AI NGSr';
+const login = 'hitbhalodia';
+const password = 'XS3K R6Ot KUL9 nZTa VW8m i0qB';
 
 const buff = new Buffer(`${login}:${password}`);
 const options = {

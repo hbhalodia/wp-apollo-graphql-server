@@ -6,7 +6,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 
 	constructor(options) {
 		super();
-		this.baseURL = "http://rtcamplocal.local/wp-json/wp/v2/";
+		this.baseURL = "http://wp-graphql-backend.test/wp-json/";
 		this.token = options.token;
 	}
 
@@ -36,7 +36,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 
 	async getAllArticles({ pageSize, postType }) {
 
-		const res = await this.get(postType, {
+		const res = await this.get( 'wp/v2/' + postType, {
 			params: {
 				per_page: pageSize,
 			},
@@ -48,12 +48,12 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getArticleById({ postId, postType }) {
-		const res = await this.get(`${postType}/${postId}`);
+		const res = await this.get(`wp/v2/${postType}/${postId}`);
 		return this.ArticleReducer(res);
 	}
 
 	async addArticle({ title, content, author, excerpt, slug, status, postType }) {
-		const res = await this.post(postType, {
+		const res = await this.post('wp/v2/' + postType, {
 			body: {
 				title,
 				content,
@@ -79,7 +79,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getAllTaxonomies({ pageSize, taxonomy }) {
-		const res = await this.get(taxonomy, {
+		const res = await this.get('wp/v2/' + taxonomy, {
 			params: {
 				per_page: pageSize,
 			},
@@ -91,7 +91,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getTaxonomyById({ taxonomyId, taxonomy }) {
-		const res = await this.get(`${taxonomy}/${taxonomyId}`);
+		const res = await this.get(`wp/v2/${taxonomy}/${taxonomyId}`);
 		return this.TaxonomyReducer(res);
 	}
 
@@ -105,12 +105,12 @@ export default class WordPressPostAPI extends RESTDataSource {
 			taxonomy = 'tags';
 		}
 
-		const res = await this.get(`${taxonomy}/${id}`);
+		const res = await this.get(`wp/v2/${taxonomy}/${id}`);
 		return this.TaxonomyReducer(res);
 	}
 
 	async addTaxonomy({ name, description, taxonomy, parent, slug }) {
-		const res = await this.post(taxonomy, {
+		const res = await this.post('wp/v2/' + taxonomy, {
 			body: {
 				name,
 				description,
@@ -122,7 +122,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getCategoriesByIDs({ categoryIds }) {
-		const res = await this.get('categories', {
+		const res = await this.get('wp/v2/categories', {
 			params: {
 				include: categoryIds,
 			},
@@ -133,7 +133,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getTagsByIDs({ tagIds }) {
-		const res = await this.get('tags', {
+		const res = await this.get('wp/v2/tags', {
 			params: {
 				include: tagIds,
 			},
@@ -144,7 +144,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getSolutionsByIDs({ solutionIds }) {
-		const res = await this.get('solution', {
+		const res = await this.get('wp/v2/solution', {
 			params: {
 				include: solutionIds,
 			},
@@ -155,7 +155,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getServicesByIDs({ serviceIds }) {
-		const res = await this.get('service', {
+		const res = await this.get('wp/v2/service', {
 			params: {
 				include: serviceIds,
 			},
@@ -166,7 +166,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getIndustriesByIDs({ industryIds }) {
-		const res = await this.get('industry', {
+		const res = await this.get('wp/v2/industry', {
 			params: {
 				include: industryIds,
 			},
@@ -177,7 +177,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getJobTypesByIDs({ jobTypeIds }) {
-		const res = await this.get('job_type', {
+		const res = await this.get('wp/v2/job_type', {
 			params: {
 				include: jobTypeIds,
 			},
@@ -198,7 +198,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getAllUsers({ pageSize }) {
-		const res = await this.get('users', {
+		const res = await this.get('wp/v2/users', {
 			params: {
 				per_page: pageSize,
 			},
@@ -210,7 +210,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getUserById({ userId }) {
-		const res = await this.get('users/' + userId);
+		const res = await this.get('wp/v2/users/' + userId);
 		return this.UserReducer(res);
 	}
 
@@ -230,7 +230,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getAllAttachments({ pageSize }) {
-		const res = await this.get('media', {
+		const res = await this.get('wp/v2/media', {
 			params: {
 				per_page: pageSize,
 			},
@@ -247,7 +247,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			return null;
 		}
 
-		const res = await this.get('media/' + attachmentId);
+		const res = await this.get('wp/v2/media/' + attachmentId);
 		return this.AttachmentReducer(res);
 	}
 
@@ -270,7 +270,56 @@ export default class WordPressPostAPI extends RESTDataSource {
 	}
 
 	async getSettings() {
-		const res = await this.get('settings');
+		const res = await this.get('wp/v2/settings');
 		return this.SettingsReducer(res);
+	}
+
+	MenuReducer(menu) {
+		return {
+			name: menu.name,
+			slug: menu.slug,
+			taxonomy: menu.taxonomy,
+			termId: menu.term_id,
+			menuItems: this.getMenuItemsSlug({ slug: menu.slug})
+		}
+	}
+
+	MenuItemsReducer(menuItem) {
+		return {
+			name: menuItem.name,
+			slug: menuItem.slug,
+			taxonomy: menuItem.taxonomy,
+			items: this.getMenuItemsReducer(menuItem.items),
+		}
+	}
+
+	MenuItemReducer(item) {
+		return {
+			title: item.title,
+			slug: item.slug,
+			id: item.ID,
+		}
+	}
+
+	getMenuItemsReducer(items) {
+		return Array.isArray(items)
+			? items.map(menuItem => this.MenuItemReducer(menuItem))
+			: [];
+	}
+
+	async getMenus() {
+		const res = await this.get('menus/v1/menus/');
+		return Array.isArray(res)
+			? res.map(menu => this.MenuReducer(menu))
+			: [];
+	}
+
+	async getMenuItemsSlug({ slug }) {
+		const res = await this.get('menus/v1/menus/' + slug);
+		const newres = [];
+		newres.push(res);
+		return Array.isArray(newres)
+			? newres.map(menuItem => this.MenuItemsReducer(menuItem))
+			: [];
 	}
 }

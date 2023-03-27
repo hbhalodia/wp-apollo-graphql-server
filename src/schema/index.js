@@ -52,6 +52,27 @@ const typeDefs = `
 		source_url: String,
 	}
 
+	type MenuItem {
+		id: ID!,
+		title: String,
+		slug: String,
+	}
+
+	type MenuItems {
+		name: String,
+		slug: String,
+		taxonomy: String,
+		items: [MenuItem],
+	}
+
+	type Menu {
+		name: String,
+		slug: String,
+		taxonomy: String,
+		termId: Int,
+		menuItems: [MenuItems],
+	}
+
 	type Setting {
 		title: String,
 		description: String,
@@ -78,7 +99,8 @@ const typeDefs = `
 		user(id: ID!): User,
 		attachment(id: ID!): Media,
 		settings: Setting,
-		hello: String,
+		menus: [Menu],
+		menu(slug: String): [MenuItems],
 	}
 
 	type Mutation {

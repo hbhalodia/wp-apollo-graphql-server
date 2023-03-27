@@ -27,7 +27,12 @@ const resolvers = {
 		settings: async( _, __, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getSettings();
 		},
-		hello: () => 'Hello world!',
+		menus: async (_, __, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getMenus();
+		},
+		menu: async (_, { slug }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.getMenuItemsSlug({ slug: slug });
+		}
 	},
 	Mutation: {
 		addArticle: async (_, { title, author, content, excerpt, slug, status, postType }, { dataSources }) => {
