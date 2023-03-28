@@ -22,6 +22,7 @@ export default class WordPressPostAPI extends RESTDataSource {
 			excerpt: article.excerpt.rendered,
 			slug: article.slug,
 			link: article.link,
+			meta: article.hasOwnProperty('meta') ? this.getArticleMeta({meta: article.meta}) : [],
 			postType: article.type,
 			attachment: ! article.hasOwnProperty('featured_media') ? [] : this.getAttachmentById({ attachmentId: article.featured_media }),
 			author: ! article.hasOwnProperty('author') ? []: this.getUserById({ userId: article.author }),
@@ -73,11 +74,26 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return this.ArticleReducer(res);
 	}
 
+	MetaReducer(key, value) {
+		return {
+			metaKey: key,
+			metaValue: value,
+		}
+	}
+
+	async getArticleMeta({ meta }) {
+		const metaArray = [];
+		for (const key in meta) {
+			metaArray.push(this.MetaReducer(key, meta[key]));
+		}
+		return metaArray;
+	}
+
 	async addArticleViewCount({ postId, postType }) {
 		const res = await this.post(`wp/v2/${postType}/${postId}/meta`, {
 			body: {
 				key: 'article-view-count',
-				value: 7, // Need to change.
+				value: 11, // Need to change.
 			}
 		});
 		console.log(res);

@@ -11,6 +11,7 @@ const typeDefs = `
 		link: String!,
 		status: String,
 		postType: String,
+		meta: [Meta],
 		attachment: Media,
 		author: User,
 		categories: [Taxonomy],
@@ -19,6 +20,11 @@ const typeDefs = `
 		services: [Taxonomy],
 		industries: [Taxonomy],
 		jobTypes: [Taxonomy],
+	}
+
+	type Meta {
+		metaKey: String,
+		metaValue: String,
 	}
 
 	type Taxonomy {
