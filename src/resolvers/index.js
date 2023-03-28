@@ -40,6 +40,9 @@ const resolvers = {
 		},
 		addTaxonomy: async (_, { description, name, slug, taxonomy, parent }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.addTaxonomy({ description, name, slug, taxonomy, parent });
+		},
+		addArticleViewCount: async (_, { postId = 0, postType = 'posts' }, { dataSources }) => {
+			return dataSources.WordPressPostAPI.addArticleViewCount({ postId, postType });
 		}
 	}
 }

@@ -73,6 +73,17 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return this.ArticleReducer(res);
 	}
 
+	async addArticleViewCount({ postId, postType }) {
+		const res = await this.post(`wp/v2/${postType}/${postId}/meta`, {
+			body: {
+				key: 'article-view-count',
+				value: 7, // Need to change.
+			}
+		});
+		console.log(res);
+		return this.ArticleReducer(res);
+	}
+
 	TaxonomyReducer(taxonomy) {
 		return {
 			id: taxonomy.id,
