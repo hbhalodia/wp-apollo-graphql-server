@@ -89,14 +89,13 @@ export default class WordPressPostAPI extends RESTDataSource {
 		return metaArray;
 	}
 
-	async addArticleViewCount({ postId, postType }) {
+	async addArticleViewCount({ postId, postType, metaKey, metaValue }) {
 		const res = await this.post(`wp/v2/${postType}/${postId}/meta`, {
 			body: {
-				key: 'article-view-count',
-				value: 11, // Need to change.
+				metaKey,
+				metaValue,
 			}
 		});
-		console.log(res);
 		return this.ArticleReducer(res);
 	}
 

@@ -112,7 +112,7 @@ const typeDefs = `
 	type Mutation {
 		addArticle( title: String, slug: String, author: Int, content: String, excerpt: String, status: String, postType: String ): Article,
 		addTaxonomy( description: String, name: String, slug: String, taxonomy: String, parent: Int ): Taxonomy,
-		addArticleViewCount( postId: ID!, postType: String ): Article,
+		addArticleViewCount( postId: ID!, postType: String, metaKey: String, metaValue: String ): Article,
 	}
 `;
 
