@@ -77,7 +77,7 @@ await server.start();
 app.use(
 	'/',
 	cors({
-		origin: 'http://localhost:3000',
+		origin: [ 'http://localhost:3000', 'https://apollo-react-wp.netlify.app' ],
 		exposedHeaders: '*',
 	}),
 	bodyParser.json(),
