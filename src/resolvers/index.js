@@ -1,6 +1,16 @@
 const resolvers = {
 	Query: {
-		articles: async (_, { pageSize = 5, postType = 'posts', category = '', page = 1 }, { dataSources }) => {
+		articles: async (_, { pageSize = 5, postType = 'posts', category = '', page = 1 }, { dataSources, res }) => {
+			const getPromise = dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType, category: category, page: page });
+
+			return getPromise.then(function (data) {
+				const { response, headers } = data;
+				Object.entries(headers).forEach(([key, value]) => {
+					res.setHeader(key, value);
+				});
+				return response;
+			});
+
 			return dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType, category: category, page: page });
 		},
 		article: async (_, { id, postType = 'posts' }, { dataSources }) => {

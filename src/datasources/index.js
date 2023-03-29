@@ -1,4 +1,5 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
+import axios from 'axios';
 import pkg from 'lodash';
 const { isEmpty } = pkg;
 
@@ -46,13 +47,26 @@ export default class WordPressPostAPI extends RESTDataSource {
 			params['categories'] = category;
 		}
 
-		const res = await this.get( 'wp/v2/' + postType, {
+		return axios.get(`${this.baseURL}wp/v2/${postType}`, {
 			params
-			// We can add multiple params such as sorting, offset etc which is provided by rest API.
+		}).then(response => {
+
+			let returnedObject = {};
+			let mappedData = []
+
+			Array.isArray(response.data)
+				? mappedData = response.data.map(article => this.ArticleReducer(article))
+				: mappedData = [];
+
+			returnedObject = {
+				'response': mappedData,
+				'headers': response.headers
+			}
+
+			return returnedObject;
+		}).catch(error => {
+			console.log(error);
 		});
-		return Array.isArray(res)
-			? res.map(article => this.ArticleReducer(article))
-			: [];
 	}
 
 	async getArticleById({ postId, postType }) {
