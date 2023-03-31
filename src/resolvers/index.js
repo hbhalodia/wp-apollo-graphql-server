@@ -10,8 +10,6 @@ const resolvers = {
 				});
 				return response;
 			});
-
-			return dataSources.WordPressPostAPI.getAllArticles({ pageSize: pageSize, postType: postType, category: category, page: page });
 		},
 		article: async (_, { id, postType = 'posts' }, { dataSources }) => {
 			return dataSources.WordPressPostAPI.getArticleById({ postId: id, postType: postType });
