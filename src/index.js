@@ -78,7 +78,7 @@ app.use(
 	'/',
 	cors({
 		credentials: true,
-		origin: [ 'http://localhost:3000', 'https://apollo-react-wp.netlify.app' ],
+		origin: [ 'http://localhost:3000', 'https://apollo-react-wp.netlify.app', 'http://localhost:3005' ],
 		exposedHeaders: '*',
 	}),
 	bodyParser.json(),
